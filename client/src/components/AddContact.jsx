@@ -35,7 +35,7 @@ export const AddContact = () => {
     e.preventDefault();
     console.log(contact);
     try {
-      const response = await fetch("http://localhost:3000/add-contact", {
+      const response = await fetch("https://contact-manager-backend-na3k.onrender.com/add-contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
