@@ -23,7 +23,7 @@ export const SignUp = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch("https://contact-manager-backend-na3k.onrender.com/signup", {
+            const response = await fetch("https://contact-manager-backend-wo7e.onrender.com/signup", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

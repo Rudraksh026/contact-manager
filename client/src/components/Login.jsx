@@ -23,7 +23,7 @@ export const Login = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "https://contact-manager-backend-na3k.onrender.com/login",
+        "https://contact-manager-backend-wo7e.onrender.com/login",
         {
           method: "POST",
           headers: {

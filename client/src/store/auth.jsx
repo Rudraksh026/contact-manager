@@ -20,7 +20,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const useAuthentication = async () => {
     try {
-      const response = await fetch("https://contact-manager-backend-na3k.onrender.com/user", {
+      const response = await fetch("https://contact-manager-backend-wo7e.onrender.com/user", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export const AuthContextProvider = ({ children }) => {
     };
 
     try {
-      const response = await fetch("https://contact-manager-backend-na3k.onrender.com/delete-contact", {
+      const response = await fetch("https://contact-manager-backend-wo7e.onrender.com/delete-contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
