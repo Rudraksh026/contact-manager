@@ -2,11 +2,13 @@ import "./styles/AddContact.css";
 import { useAuth } from "../store/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Bounce } from "react-toastify";
 export const AddContact = () => {
   const { user } = useAuth();
   const useremail = user.email;
   const navigate = useNavigate();
-  console.log(useremail);
   const [contact, setContact] = useState({
     email: useremail,
     contactInfo: [
@@ -24,8 +26,8 @@ export const AddContact = () => {
       ...user,
       contactInfo: [
         {
-          ...prev.contactInfo[0], // get the first object
-          [name]: value, // update the changed field
+          ...prev.contactInfo[0],
+          [name]: value,
         },
       ],
     }));
@@ -33,76 +35,146 @@ export const AddContact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(contact);
     try {
-      const response = await fetch("https://contact-manager-backend-na3k.onrender.com/add-contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(contact),
-      });
+      const response = await fetch(
+        "https://contact-manager-backend-na3k.onrender.com/add-contact",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(contact),
+        }
+      );
       if (response.ok) {
         const responseData = await response.json();
         console.log(responseData);
+        toast.success(responseData.msg, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+          });
       } else {
-        console.log(response);
+        const data = await response.json();
+        if (response.status === 401) {
+          toast.error("Invalid credentials", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
+        } else {
+          const message = JSON.parse(data.msg);
+          toast.error(message[0].message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
+        }
       }
     } catch (error) {
       console.log(error);
     }
   };
   return (
-    <div className="add-contact-container">
-      <h1>Add New Contact</h1>
-      <form onSubmit={handleSubmit} className="contact-form">
-        <div className="form-group">
-          <label htmlFor="name">Full Name</label>
-          <input
-            value={contact.contactInfo.Contactname}
-            onChange={handleChange}
-            type="text"
-            id="Contactname"
-            name="Contactname"
-            placeholder="Enter full name"
-            required
-          />
-        </div>
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+        pauseOnHover={false}
+        theme="light"
+        transition={Bounce}
+      />
 
-        <div className="form-group">
-          <label htmlFor="email">Email Address</label>
-          <input
-            value={contact.contactInfo.Contactemail}
-            onChange={handleChange}
-            type="email"
-            id="Contactemail"
-            name="Contactemail"
-            placeholder="Enter email address"
-            required
-          />
-        </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+        pauseOnHover={false}
+        theme="light"
+        transition={Bounce}
+      />
 
-        <div className="form-group">
-          <label htmlFor="phone">Phone Number</label>
-          <input
-            value={contact.contactInfo.Contactphone}
-            onChange={handleChange}
-            type="tel"
-            id="Contactphone"
-            name="Contactphone"
-            placeholder="Enter phone number"
-            required
-          />
-        </div>
-
-        <button type="submit" className="submit-btn">
-          Save Contact
-        </button>
-        <br /> <br />
-        <button onClick={() => navigate(-1)} type="button" className="submit-btn">
-          Back
-        </button>
-      </form>
-    </div>
+      <div className="add-contact-container">
+        <h1>Add New Contact</h1>
+        <form onSubmit={handleSubmit} className="contact-form">
+          <div className="form-group">
+            <label htmlFor="name">Full Name</label>
+            <input
+              value={contact.contactInfo.Contactname}
+              onChange={handleChange}
+              type="text"
+              id="Contactname"
+              name="Contactname"
+              placeholder="Enter full name"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Email Address</label>
+            <input
+              value={contact.contactInfo.Contactemail}
+              onChange={handleChange}
+              type="email"
+              id="Contactemail"
+              name="Contactemail"
+              placeholder="Enter email address"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="phone">Phone Number</label>
+            <input
+              value={contact.contactInfo.Contactphone}
+              onChange={handleChange}
+              type="tel"
+              id="Contactphone"
+              name="Contactphone"
+              placeholder="Enter phone number"
+              required
+            />
+          </div>
+          <button type="submit" className="submit-btn">
+            Save Contact
+          </button>
+          <br /> <br />
+          <button
+            onClick={() => navigate(-1)}
+            type="button"
+            className="submit-btn"
+          >
+            Back
+          </button>
+        </form>
+      </div>
+    </>
   );
 };

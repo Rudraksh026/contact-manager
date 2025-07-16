@@ -3,6 +3,9 @@ import "./styles/Signup.css"
 import { useState } from "react"
 import { useAuth } from "../store/auth"
 import { useNavigate } from "react-router-dom"
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Bounce } from "react-toastify";
 export const SignUp = () => {
     const {storeToken} = useAuth()
     const navigate = useNavigate()  
@@ -32,12 +35,55 @@ export const SignUp = () => {
                 storeToken(responseData.token)
                 navigate("/contact")
             }
+            else {
+                const data = await response.json();
+                if(response.status === 400){
+                  toast.error("Invalid credentials", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: false,  
+                    pauseOnHover: false,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                  });
+                }
+                else{
+                  const message = JSON.parse(data.msg);
+                  toast.error(message[0].message, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                  pauseOnHover: false,
+                  draggable: false,
+                  progress: undefined,
+                  theme: "light",
+                  transition: Bounce,
+                });
+              }
+            }
         } catch (error) {
             console.log(error.status);
         }
     }
 
     return <>
+        <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+        pauseOnHover={false}
+        theme="light"
+        transition={Bounce}
+      />
         <div className="signup-container">
     <form onSubmit={handleSubmit} className="signup-box">
       <h2>Create Account 🚀</h2>

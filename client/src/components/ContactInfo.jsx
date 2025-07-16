@@ -11,6 +11,7 @@ export const ContactInfo = () => {
       setContactInfo(user.contactInfo);
     }
   }, [user]);
+  const Info = user.contactInfo
   return (
     <>
       <div className="container">
@@ -22,8 +23,8 @@ export const ContactInfo = () => {
         </header>
 
         <div className="contact-list">
-          {Array.isArray(contactInfo) && contactInfo.length > 0 ? (
-            contactInfo.map((element, index) => {
+          {Array.isArray(Info) && Info.length > 0 ? (
+            Info.map((element, index) => {
               return (
                 <>
                   <div key={index} className="contact-card">
