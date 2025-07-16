@@ -23,7 +23,7 @@ export const Login = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "http://localhost:3000/login",
+        "https://contact-manager-75ct.onrender.com/login",
         {
           method: "POST",
           headers: {

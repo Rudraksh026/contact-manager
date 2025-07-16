@@ -37,7 +37,7 @@ export const AddContact = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "http://localhost:3000/add-contact",
+        "https://contact-manager-75ct.onrender.com/add-contact",
         {
           method: "POST",
           headers: {
