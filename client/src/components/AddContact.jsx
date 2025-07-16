@@ -155,7 +155,7 @@ export const AddContact = () => {
             <input
               value={contact.contactInfo.Contactphone}
               onChange={handleChange}
-              type="tel"
+              type="number"
               id="Contactphone"
               name="Contactphone"
               placeholder="Enter phone number"
