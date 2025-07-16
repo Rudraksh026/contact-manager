@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Bounce } from "react-toastify";
 export const AddContact = () => {
-  const { user } = useAuth();
+  const { user,setUser } = useAuth();
   const useremail = user.email;
   const navigate = useNavigate();
   const [contact, setContact] = useState({
@@ -37,7 +37,7 @@ export const AddContact = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "https://contact-manager-backend-wo7e.onrender.com/add-contact",
+        "http://localhost:3000/add-contact",
         {
           method: "POST",
           headers: {
@@ -48,7 +48,6 @@ export const AddContact = () => {
       );
       if (response.ok) {
         const responseData = await response.json();
-        console.log(responseData);
         toast.success(responseData.msg, {
           position: "top-right",
           autoClose: 3000,
@@ -60,6 +59,7 @@ export const AddContact = () => {
           theme: "light",
           transition: Bounce,
           });
+          setUser((prev) => ({ ...prev, contactInfo: responseData.contactInfo }));
       } else {
         const data = await response.json();
         if (response.status === 401) {

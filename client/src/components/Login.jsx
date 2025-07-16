@@ -23,7 +23,7 @@ export const Login = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "https://contact-manager-backend-wo7e.onrender.com/login",
+        "http://localhost:3000/login",
         {
           method: "POST",
           headers: {

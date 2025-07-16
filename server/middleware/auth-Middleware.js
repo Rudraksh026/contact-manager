@@ -7,15 +7,20 @@ const authMiddleware = async (req,res,next) => {
     if(!token){
         return res.status(401).json({msg:"Unauthorized"})
     }
+
+    const jwttoken = token.trim()
+
+    // console.log(process.env.JWT_KEY)
     try {
-        const decoded = jwt.verify(token,process.env.JWT_KEY)
-        const userData = await User.findOne({email:decoded.email})
+        const isVerified = jwt.verify(jwttoken, process.env.JWT_KEY) 
+        const userData = await User.findOne({email:isVerified.email})
         req.email = userData.email
-        req.token = token
+        req.token = jwttoken
         req.user = userData
         next()
     } catch (error) {
-        return res.status(401).json({msg:"Unauthorized"})
+        console.log(error)
+        return res.status(401).json({msg:error})
     }
 }
 

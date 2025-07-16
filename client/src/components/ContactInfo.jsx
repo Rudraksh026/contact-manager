@@ -2,16 +2,17 @@ import { useNavigate } from "react-router-dom";
 import "./styles/contact.css";
 import { useAuth } from "../store/auth";
 import { useState, useEffect } from "react";
+import { ContactCart } from "./ContactCart";
 export const ContactInfo = () => {
   const navigate = useNavigate();
   const { user, manageDelete } = useAuth();
-    const [contactInfo, setContactInfo] = useState();
+  const [contactInfo, setContactInfo] = useState([]);
   useEffect(() => {
     if (user?.contactInfo) {
       setContactInfo(user.contactInfo);
     }
   }, [user]);
-  const Info = user.contactInfo
+  console.log(Object.keys(contactInfo).length)
   return (
     <>
       <div className="container">
@@ -23,19 +24,11 @@ export const ContactInfo = () => {
         </header>
 
         <div className="contact-list">
-          {Array.isArray(Info) && Info.length > 0 ? (
-            Info.map((element, index) => {
+          {Array.isArray(contactInfo) && contactInfo.length > 0 ? (
+            contactInfo.map((element, index) => {
               return (
                 <>
-                  <div key={index} className="contact-card">
-                    <h3>{element.name}</h3>
-                    <p>📧 {element.email}</p>
-                    <p>📞 {element.phone}</p>
-                    <div className="card-actions">
-                      <button></button>
-                      <button onClick={() => {manageDelete(element._id)}} className="delete-btn">Delete</button>
-                    </div>
-                  </div>
+                  <ContactCart element={element} index={index} manageDelete={manageDelete} />
                 </>
               );
             })
